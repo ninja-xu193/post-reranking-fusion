@@ -1,0 +1,5 @@
+# Locally checked numerical environment with Python 3.9.6.
+# This is not a GPU inference environment or a complete transitive lockfile.
+numpy==2.0.2
+scipy==1.13.1
+scikit-learn==1.6.1

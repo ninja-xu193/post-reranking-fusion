@@ -1,0 +1,4 @@
+{"query_id":"toy-1","domain":"toy-a","candidates":[{"doc_id":"a","bm25":3.0,"reranker":0.8},{"doc_id":"b","bm25":8.0,"reranker":0.8},{"doc_id":"c","bm25":5.0,"reranker":0.4}],"qrels":{"b":1,"c":1,"outside":1}}
+{"query_id":"toy-2","domain":"toy-a","candidates":[{"doc_id":"a","bm25":2.0,"reranker":0.6},{"doc_id":"b","bm25":6.0,"reranker":0.6},{"doc_id":"c","bm25":1.0,"reranker":0.2}],"qrels":{"b":2}}
+{"query_id":"toy-3","domain":"toy-b","candidates":[{"doc_id":"a","bm25":7.0,"reranker":0.5},{"doc_id":"b","bm25":1.0,"reranker":0.5},{"doc_id":"c","bm25":4.0,"reranker":0.1}],"qrels":{"a":1}}
+{"query_id":"toy-4","domain":"toy-b","candidates":[{"doc_id":"a","bm25":2.0,"reranker":0.2},{"doc_id":"b","bm25":4.0,"reranker":0.2}],"qrels":{}}
