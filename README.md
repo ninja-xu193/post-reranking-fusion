@@ -41,7 +41,7 @@ These commands demonstrate the API on invented data. Training and evaluating on 
 | `T` | Reranker score, BM25 score, then common priority |
 | `rrf` | Reciprocal rank fusion with average feature ranks |
 | `convex` | Query-normalized `(1-alpha) * reranker + alpha * BM25` |
-| `logistic` | Pointwise logistic score over shared features |
+| `logistic` | Pointwise logistic linear decision value over shared features |
 | `listfuse` | Linear listwise score over shared features |
 | `ltb` | Reranker score first, separately trained tie-listwise score second |
 | `oracle` | Reranker score first, judgment grade second; evaluation only |

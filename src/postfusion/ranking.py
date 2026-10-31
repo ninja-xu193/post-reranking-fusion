@@ -79,7 +79,8 @@ def rank(query, method="T", seed=0, model=None, alpha=0.25,
     elif method in ("listfuse", "logistic", "ltb"):
         if model is None or model.kind != {"listfuse":"listwise", "ltb":"tie_listwise", "logistic":"logistic"}[method]:
             raise ValueError("A matching fitted model is required")
-        primary = model.scores(query)
+        # Logistic probabilities can saturate and create artificial ties.
+        primary = model.decision_function(query) if method == "logistic" else model.scores(query)
         if restrict_ties or method == "ltb":
             primary, secondary = s, primary
     elif method == "oracle":

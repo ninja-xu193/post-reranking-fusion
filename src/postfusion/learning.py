@@ -28,9 +28,12 @@ class FusionModel:
         if self.grid_step is not None and (not np.isfinite(self.grid_step) or self.grid_step <= 0):
             raise ValueError("Invalid grid step")
 
-    def scores(self, query):
+    def decision_function(self, query):
         s = restore_grid(query.reranker, self.grid_step)
-        z = features(query.bm25, s, self.rrf_constant) @ np.asarray(self.weights) + self.intercept
+        return features(query.bm25, s, self.rrf_constant) @ np.asarray(self.weights) + self.intercept
+
+    def scores(self, query):
+        z = self.decision_function(query)
         return expit(z) if self.kind == "logistic" else z
 
     def to_dict(self):

@@ -32,7 +32,7 @@ Evaluation ranks by reranker score first and the fitted score second. This defin
 
 ## Logistic and convex fitting
 
-Logistic fitting uses the same eleven columns, `C=1`, L-BFGS and at most 1,000 iterations. Within each eligible query, positives have weights `0.5 / positive_count` and negatives `0.5 / negative_count`. Queries missing either class are excluded. Ranking uses predicted probabilities. Convergence warnings are treated as errors.
+Logistic fitting uses the same eleven columns, `C=1`, L-BFGS and at most 1,000 iterations. Within each eligible query, positives have weights `0.5 / positive_count` and negatives `0.5 / negative_count`. Queries missing either class are excluded. Ranking uses the linear decision value, avoiding artificial ties caused by sigmoid saturation. `scores()` still returns probabilities for logistic models. Convergence warnings are treated as errors.
 
 Convex fusion assigns BM25 weight `alpha`. Source-only selection maximizes domain-equal nDCG@10 over a 21-point grid from zero to one. Ties select the weight closest to 0.5, then the smaller value. Evaluation priorities are averaged before weight selection. Do not choose weights on the held-out target set.
 

@@ -31,8 +31,11 @@ class Query:
             raise ValueError("Document IDs must be nonempty strings")
         if len(self.doc_ids) != len(self.bm25) or len(self.doc_ids) != len(self.reranker):
             raise ValueError("Candidate and score lengths differ")
-        if not np.isfinite(np.asarray([self.bm25, self.reranker], dtype=float)).all():
-            raise ValueError("Scores must be finite")
+        for name in ("bm25", "reranker"):
+            values = np.asarray(getattr(self, name), dtype=float)
+            if values.ndim != 1 or not np.isfinite(values).all():
+                raise ValueError("Scores must be finite one-dimensional vectors")
+            object.__setattr__(self, name, tuple(float(v) for v in values))
         if any(not np.isfinite(v) or v < 0 for v in self.qrels.values()):
             raise ValueError("Judgment grades must be finite and nonnegative")
 

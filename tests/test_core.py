@@ -36,6 +36,23 @@ class CoreTests(unittest.TestCase):
         with self.assertRaises(TypeError):
             self.q.qrels["a"]=4
 
+    def test_score_vectors_are_numeric_and_flat(self):
+        numeric = replace(self.q, bm25=("3", "2", "1"))
+        self.assertEqual(numeric.bm25, (3.0, 2.0, 1.0))
+        self.assertEqual(rank(numeric, "rrf"), rank(replace(numeric, bm25=(3., 2., 1.)), "rrf"))
+        for values in (((3,), (2,), (1,)), ("bad", "2", "1")):
+            with self.assertRaises(ValueError):
+                replace(self.q, bm25=values)
+
+    def test_logistic_sort_does_not_introduce_saturation_ties(self):
+        query = Query("toy-saturation", "toy-domain", ("a", "b", "c"),
+                      (3., 2., 1.), (1., .9, 0.), {"a": 1})
+        model = FusionModel("logistic", [0., 50.] + [0.] * 9)
+        self.assertEqual(model.scores(query)[0], model.scores(query)[1])
+        self.assertGreater(model.decision_function(query)[0], model.decision_function(query)[1])
+        for seed in range(20):
+            self.assertEqual(rank(query, "logistic", seed, model=model), ["a", "b", "c"])
+
     def test_average_ranks(self):
         x=features([1,2,3],[.8,.8,.4])
         np.testing.assert_allclose(x[:,3],[1/1.5,1/1.5,1/3])
